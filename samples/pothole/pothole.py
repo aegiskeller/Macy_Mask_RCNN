@@ -109,7 +109,7 @@ class PotholeDataset(utils.Dataset):
             sys.exit()
         itest_lim = 0 
         for a in annotations:
-            if (itest_lim > icount_max):
+            if (itest_lim >= icount_max):
                 continue
             start_xs = []
             start_ys = []

@@ -34,4 +34,4 @@ model = MaskRCNN(mode='training', model_dir='./', config=config)
 # load the last trained weights
 model.load_weights(model.find_last(), by_name=True)
 # train weights (output layers or 'heads')
-model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=10, layers='heads')
+model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=15, layers='heads')
