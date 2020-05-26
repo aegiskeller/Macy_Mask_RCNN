@@ -94,12 +94,22 @@ class PotholeDataset(utils.Dataset):
 
         # Train or validation dataset?
         assert subset in ["train", "val"]
-        dataset_dir = os.path.join(dataset_dir, subset)
+        #dataset_dir = os.path.join(dataset_dir, subset)
 
-        annotations = csv.reader(open(dataset_dir + "/simpleTrainFullPhotosSortedFullAnnotations.txt"), delimiter=" ")
+        if (subset == "train"):
+            dataset_dir = os.path.join(dataset_dir, 'train')
+            annotations = csv.reader(open(dataset_dir + "/simpleTrainFullPhotosSortedFullAnnotations.txt"), delimiter=" ")
+            icount_max = 150 # max number of images to train with
+        elif (subset == "val"):
+            dataset_dir = os.path.join(dataset_dir, 'test')
+            annotations = csv.reader(open(dataset_dir + "/simpleTestFullSizeAllPotholesSortedFullAnnotation.txt"), delimiter=" ")
+            icount_max = 30 # max number of images to val with
+        else:
+            print("subset not valid")
+            sys.exit()
         itest_lim = 0 
         for a in annotations:
-            if (itest_lim > 5):
+            if (itest_lim > icount_max):
                 continue
             start_xs = []
             start_ys = []
@@ -110,7 +120,7 @@ class PotholeDataset(utils.Dataset):
                 start_y = int(a[3+4*i])
                 extent_x = int(a[4+4*i])
                 extent_y = int(a[5+4*i])
-                print('coord %d : %d,%d extent %d,%d' % (i, start_x, start_y, extent_x, extent_y))
+                #print('coord %d : %d,%d extent %d,%d' % (i, start_x, start_y, extent_x, extent_y))
                 start_xs.append(start_x)
                 start_ys.append(start_y)
                 extent_xs.append(extent_x)
@@ -118,6 +128,8 @@ class PotholeDataset(utils.Dataset):
         
             # load_mask() needs the image size to convert polygons to masks.
             image_path = os.path.join(dataset_dir, a[0].replace('bmp', 'JPG').replace('\\', '/'))
+            if (subset == "val"):
+                image_path = image_path.replace('testData/', '')
             image = skimage.io.imread(image_path)
             height, width = image.shape[:2]
         
