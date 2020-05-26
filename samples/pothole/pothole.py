@@ -117,13 +117,13 @@ class PotholeDataset(utils.Dataset):
                 extent_ys.append(extent_y)
         
             # load_mask() needs the image size to convert polygons to masks.
-            image_path = os.path.join(dataset_dir, a[0].replace('bmp', 'jpg'))
+            image_path = os.path.join(dataset_dir, a[0].replace('bmp', 'JPG').replace('\\', '/'))
             image = skimage.io.imread(image_path)
             height, width = image.shape[:2]
         
             self.add_image(
                 "pothole",
-                image_id=a[0].replace('bmp', 'jpg'),  # use file name as a unique image id
+                image_id=a[0].replace('bmp', 'JPG').replace('\\', '/'),  # use file name as a unique image id
                 path=image_path,
                 width=width, height=height,
                 start_xv = start_xs,
