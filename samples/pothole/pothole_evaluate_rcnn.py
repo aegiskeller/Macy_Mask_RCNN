@@ -67,7 +67,7 @@ config.display()
 # define the model
 model = MaskRCNN(mode='inference', model_dir='./', config=config)
 # load model weights
-model.load_weights('mask_rcnn_pothole_0015.h5', by_name=True)
+model.load_weights('mask_rcnn_pothole_0005.h5', by_name=True)
 # evaluate model on training dataset
 train_mAP = evaluate_model(train_set, model, config)
 print("Train mAP: %.3f" % train_mAP)

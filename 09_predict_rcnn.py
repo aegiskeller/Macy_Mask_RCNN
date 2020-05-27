@@ -105,6 +105,7 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 		# make prediction
 		yhat = model.detect(sample, verbose=0)[0]
 		# define subplot
+        pyplot.figure(figsize=(8.0, 5.0))
 		pyplot.subplot(n_images, 2, i*2+1)
 		# turn off axis labels
 		pyplot.axis('off')

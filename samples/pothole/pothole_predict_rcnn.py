@@ -18,14 +18,15 @@ import pothole
 class PredictionConfig(Config):
 	# define the name of the configuration
 	NAME = "pothole_cfg"
-	# number of classes (background + kangaroo)
+	# number of classes (background + pothole)
 	NUM_CLASSES = 1 + 1
 	# simplify GPU config
 	GPU_COUNT = 1
 	IMAGES_PER_GPU = 1
+	DETECTION_MIN_CONFIDENCE = 0.90
 
 # plot a number of photos with ground truth and predictions
-def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
+def plot_actual_vs_predicted(dataset, model, cfg, n_images=1):
 	# load image and mask
 	for i in range(n_images):
 		# load the image and mask
@@ -38,6 +39,8 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 		# make prediction
 		yhat = model.detect(sample, verbose=0)[0]
 		# define subplot
+		figure = pyplot.gcf() # get current figure
+		figure.set_size_inches(8, 6)
 		pyplot.subplot(n_images, 2, i*2+1)
 		# turn off axis labels
 		pyplot.axis('off')
@@ -68,7 +71,8 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 			# draw the box
 			ax.add_patch(rect)
 	# show the figure
-	pyplot.show()
+	#pyplot.show()
+	pyplot.savefig('%s.png' %(dataset), dpi=150)
 
 # prepare train set
 ROOT_DIR="../../"
@@ -90,7 +94,7 @@ config.display()
 # define the model
 model = MaskRCNN(mode='inference', model_dir='./', config=config)
 # load model weights
-model.load_weights('mask_rcnn_pothole_0015.h5', by_name=True)
+model.load_weights('mask_rcnn_pothole_0005.h5', by_name=True)
 # plot predictions for train dataset
 plot_actual_vs_predicted(train_set, model, config)
 # plot predictions for test dataset

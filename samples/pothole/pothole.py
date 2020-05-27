@@ -99,11 +99,11 @@ class PotholeDataset(utils.Dataset):
         if (subset == "train"):
             dataset_dir = os.path.join(dataset_dir, 'train')
             annotations = csv.reader(open(dataset_dir + "/simpleTrainFullPhotosSortedFullAnnotations.txt"), delimiter=" ")
-            icount_max = 150 # max number of images to train with
+            icount_max = 1500 # max number of images to train with
         elif (subset == "val"):
             dataset_dir = os.path.join(dataset_dir, 'test')
             annotations = csv.reader(open(dataset_dir + "/simpleTestFullSizeAllPotholesSortedFullAnnotation.txt"), delimiter=" ")
-            icount_max = 30 # max number of images to val with
+            icount_max = 300 # max number of images to val with
         else:
             print("subset not valid")
             sys.exit()
@@ -130,7 +130,11 @@ class PotholeDataset(utils.Dataset):
             image_path = os.path.join(dataset_dir, a[0].replace('bmp', 'JPG').replace('\\', '/'))
             if (subset == "val"):
                 image_path = image_path.replace('testData/', '')
-            image = skimage.io.imread(image_path)
+            try:
+                image = skimage.io.imread(image_path)
+            except:
+                print('WARNING can not locate image %s' % image_path)
+                continue
             height, width = image.shape[:2]
         
             self.add_image(
