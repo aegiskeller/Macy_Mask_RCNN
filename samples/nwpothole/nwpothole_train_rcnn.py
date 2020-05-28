@@ -8,7 +8,7 @@ import argparse
 import nwpothole
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--init", help='initialise from mscoco? Boolean', type=bool)
+parser.add_argument("--init", help='initialise from mscoco? Boolean', type=str)
 parser.add_argument("--epochs", help='total number of epochs to train for', type=int)
 args = parser.parse_args()
 # prepare train set
@@ -31,7 +31,7 @@ config.display()
 # define the model
 model = MaskRCNN(mode='training', model_dir='./', config=config)
 # load weights (mscoco) and exclude the output layers
-if args.init:
+if (args.init == 'True'):
     print('Training from msCOCO')
     model.load_weights(os.path.join(ROOT_DIR, 'mask_rcnn_coco.h5'), by_name=True, exclude=["mrcnn_class_logits", "mrcnn_bbox_fc",  "mrcnn_bbox", "mrcnn_mask"])
 # load the last trained weights
