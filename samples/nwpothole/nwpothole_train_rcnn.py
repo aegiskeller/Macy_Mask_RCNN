@@ -9,6 +9,7 @@ import nwpothole
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--init", help='initialise from mscoco? Boolean', type=bool)
+parser.add_argument("--epochs", help='total number of epochs to train for', type=int)
 args = parser.parse_args()
 # prepare train set
 ROOT_DIR="../../"
@@ -38,4 +39,4 @@ else:
     print('Training from last weights')
     model.load_weights(model.find_last(), by_name=True)
 # train weights (output layers or 'heads')
-model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=5, layers='heads')
+model.train(train_set, test_set, learning_rate=config.LEARNING_RATE, epochs=args.epochs, layers='heads')

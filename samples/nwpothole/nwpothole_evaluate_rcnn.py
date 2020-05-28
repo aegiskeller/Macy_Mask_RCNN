@@ -1,4 +1,4 @@
-# evaluate the mask rcnn model on the pothole dataset
+# evaluate the mask rcnn model on the nwpothole dataset
 from os import listdir
 from xml.etree import ElementTree
 from numpy import zeros
@@ -13,12 +13,12 @@ from mrcnn.model import load_image_gt
 from mrcnn.model import mold_image
 import sys,os
 
-import pothole
+import nwpothole
 
 # define the prediction configuration
 class PredictionConfig(Config):
 	# define the name of the configuration
-	NAME = "pothole_cfg"
+	NAME = "nwpothole_cfg"
 	# number of classes (background + pothole)
 	NUM_CLASSES = 1 + 1
 	# simplify GPU config
@@ -49,16 +49,16 @@ def evaluate_model(dataset, model, cfg):
 
 # prepare train set
 ROOT_DIR="../../"
-config = pothole.PotholeConfig()
-POTHOLE_DIR = os.path.join(ROOT_DIR, "datasets/pothole")
-print(POTHOLE_DIR)
-train_set = pothole.PotholeDataset()
-train_set.load_pothole(POTHOLE_DIR, "train")
+config = nwpothole.NwpotholeConfig()
+NWPOTHOLE_DIR = os.path.join(ROOT_DIR, "datasets/nwpothole")
+print(NWPOTHOLE_DIR)
+train_set = nwpothole.NwpotholeDataset()
+train_set.load_nwpothole(NWPOTHOLE_DIR, "train")
 train_set.prepare()
 print('Train: %d' % len(train_set.image_ids))
 # prepare test/val set
-test_set = pothole.PotholeDataset()
-test_set.load_pothole(POTHOLE_DIR, "val")
+test_set = nwpothole.NwpotholeDataset()
+test_set.load_nwpothole(NWPOTHOLE_DIR, "val")
 test_set.prepare()
 print('Test: %d' % len(test_set.image_ids))
 # prepare config
@@ -67,7 +67,7 @@ config.display()
 # define the model
 model = MaskRCNN(mode='inference', model_dir='./', config=config)
 # load model weights
-model.load_weights('mask_rcnn_pothole_0005.h5', by_name=True)
+model.load_weights('mask_rcnn_nwpothole_0010.h5', by_name=True)
 # evaluate model on training dataset
 train_mAP = evaluate_model(train_set, model, config)
 print("Train mAP: %.3f" % train_mAP)
