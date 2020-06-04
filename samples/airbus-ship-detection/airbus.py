@@ -68,33 +68,34 @@ class AirbusConfig(Config):
     IMAGES_PER_GPU = 2
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 1  # Background + kangaroos
+    NUM_CLASSES = 1 + 1  # Background + airbus
 
     # Number of training steps per epoch
-    STEPS_PER_EPOCH = 100 # default 100
+    STEPS_PER_EPOCH = 500 # default 100
 
     # Skip detections with < confidence
     DETECTION_MIN_CONFIDENCE = 0.95
     
-    DETECTION_MAX_INSTANCES = 15
+#    DETECTION_MAX_INSTANCES = 15
     
-    MAX_GT_INSTANCES = 20
+#    MAX_GT_INSTANCES = 20
     
-    TRAIN_ROIS_PER_IMAGE = 64
+#    TRAIN_ROIS_PER_IMAGE = 64
     
-    IMAGE_MIN_DIM = 384
-    IMAGE_MAX_DIM = 384
-    BACKBONE = 'resnet50'
+    IMAGE_MIN_DIM = 768
+    IMAGE_MAX_DIM = 768
+    #BACKBONE = 'resnet50'
 
     ## balance out losses
-    LOSS_WEIGHTS = {
-        "rpn_class_loss": 30.0,
-        "rpn_bbox_loss": 0.8,
-        "mrcnn_class_loss": 6.0,
-        "mrcnn_bbox_loss": 1.0,
-        "mrcnn_mask_loss": 1.2
-    }
+#    LOSS_WEIGHTS = {
+#        "rpn_class_loss": 30.0,
+#        "rpn_bbox_loss": 0.8,
+#        "mrcnn_class_loss": 6.0,
+#        "mrcnn_bbox_loss": 1.0,
+#        "mrcnn_mask_loss": 1.2
+#    }
 
+#    LEARNING_RATE = 0.003 # def 0.001
 
 ############################################################
 #  Dataset
@@ -133,13 +134,13 @@ class AirbusDataset(utils.Dataset):
         exclude_list = ['6384c3e78.jpg','13703f040.jpg', '14715c06d.jpg',  '33e0ff2d5.jpg','4d4e09f2a.jpg', '877691df8.jpg', '8b909bb20.jpg', 'a8d99130e.jpg', 'ad55c3143.jpg', 'c8260c541.jpg', 'd6c7f17c7.jpg', 'dc3e7c901.jpg','e44dffe88.jpg', 'ef87bad36.jpg', 'f083256d8.jpg'] #corrupted images
 
         for image_name in image_names: 
-            if (iimageCount >=40000):
+            if (iimageCount >=4000):
                 break
             if (image_name in exclude_list):
                 continue
             image_annotation = ship_anns.query('ImageId=="' + image_name + '"')['EncodedPixels'].tolist()
             image_path = os.path.join(subset_datadir, image_name)            
-            if ( (subset == "train" and iimageCount < 38000) or (subset == "val" and iimageCount >= 38000) ):
+            if ( (subset == "train" and iimageCount < 3200) or (subset == "val" and iimageCount >= 3200) ):
                 self.add_image(
                     "airbus",
                     image_id=image_name,
