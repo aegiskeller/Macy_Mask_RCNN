@@ -27,7 +27,7 @@ class PredictionConfig(Config):
 	# simplify GPU config
 	GPU_COUNT = 1
 	IMAGES_PER_GPU = 1
-	DETECTION_MIN_CONFIDENCE = 0.90
+	DETECTION_MIN_CONFIDENCE = 0.50
 
 # prepare train set
 ROOT_DIR="../../"
@@ -52,7 +52,8 @@ model = MaskRCNN(mode='inference', model_dir='./', config=config)
 model_path = 'mask_rcnn_airbus_0050.h5'
 model.load_weights(model_path, by_name=True)
 # load photograph
-img = load_img('../../datasets/airbus-ship-detection/test_v2/0010551d9.jpg')
+img = load_img('ships.JPG')
+#img = load_img('../../datasets/airbus-ship-detection/test_v2/002a943bf.jpg')
 img = img_to_array(img)
 # convert pixel values (e.g. center)
 scaled_image = mold_image(img, config)

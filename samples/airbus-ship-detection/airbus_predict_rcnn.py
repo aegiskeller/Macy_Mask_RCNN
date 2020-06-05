@@ -23,7 +23,7 @@ class PredictionConfig(Config):
 	# simplify GPU config
 	GPU_COUNT = 1
 	IMAGES_PER_GPU = 1
-	DETECTION_MIN_CONFIDENCE = 0.90
+	DETECTION_MIN_CONFIDENCE = 0.95
 
 # plot a number of photos with ground truth and predictions
 def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
@@ -71,8 +71,8 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 			# draw the box
 			ax.add_patch(rect)
 	# show the figure
-	#pyplot.show()
-	pyplot.savefig('%s.png' %(dataset), dpi=150)
+	pyplot.show()
+	#pyplot.savefig('%s.png' %(dataset), dpi=150)
 
 # prepare train set
 ROOT_DIR="../../"
@@ -94,7 +94,7 @@ config.display()
 # define the model
 model = MaskRCNN(mode='inference', model_dir='./', config=config)
 # load model weights
-model.load_weights('mask_rcnn_airbus_0010.h5', by_name=True)
+model.load_weights('mask_rcnn_airbus_0050.h5', by_name=True)
 # plot predictions for train dataset
 plot_actual_vs_predicted(train_set, model, config)
 # plot predictions for test dataset
